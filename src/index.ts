@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
+import { ship } from './ship';
 import '../styles/style.scss';
 
-
-console.log('i am working')
+console.log('am i still working')
+ship('9')
