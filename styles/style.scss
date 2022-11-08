@@ -1,7 +1,18 @@
 body{
     background-color: aliceblue;
 }
+.hoverClass:hover{
+    background-color: pink;
+}
 
+
+.background{
+    background-color: red;
+}
+
+.error{
+    background-color: green;
+}
 .header{
     display: flex;
     align-items: center;
@@ -20,7 +31,7 @@ body{
 
 .board{
     display: grid;
-    grid-template-columns: repeat(7,1fr);
+    grid-template-columns: repeat(10,1fr);
     border: 1px solid black;
     .cell{
         border: 1px solid red;
