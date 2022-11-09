@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import '../styles/style.scss';
 import { gameBoard, Ship } from './gameBoard';
 import { createShip, ship } from './ship';
+import { enemyBoard } from './aiBoard';
 
 enum Ships { destroyer = 2, submarine = 3, cruiser = 3, battleship = 4, carrier = 5 }
 
@@ -50,7 +51,7 @@ function showBoat(coord: number[], boat: Ship, alignment: string) {
     let endCoord: number[] = endCoordStartCoord(coord, boat, alignment).endCoord;
     for (let i = startCoord[0]; i <= endCoord[0]; i++) {
         for (let j = startCoord[1]; j <= endCoord[1]; j++) {
-            let shipDiv = document.getElementById(`[${i},${j}]`)
+            let shipDiv = document.getElementById(`[${i},${j}]`) as HTMLDivElement;
             shipDiv?.setAttribute('style', 'background:pink')
             shipDiv?.setAttribute('data-occupied', 'occupied')
         }
@@ -83,31 +84,65 @@ function boatDisplay(length: number) {
         boatDiv.appendChild(cell)
     }
 }
-function isValidSpotDisplay(startCoord: number[], endCoord: number[]) {
+function isValidSpot(startCoord: number[], endCoord: number[], alignment: string) {
     if (endCoord[1] > 9) return false
     if (endCoord[0] > 9) return false
     for (let i = startCoord[0]; i <= endCoord[0]; i++) {
         for (let j = startCoord[1]; j <= endCoord[1]; j++) {
-            if (gameBoard.isInside(i)) {
-                let element = document.getElementById(`[${i - 1},${j}]`)!
-                if (element.dataset.occupied == "occupied") return false
+            if (alignment == 'vertical') {
+                let element1 = document.getElementById(`[${i - 1},${j}]`)!
+                let element1_1 = document.getElementById(`[${i - 1},${j + 1}]`)!
+                let element1_2 = document.getElementById(`[${i - 1},${j - 1}]`)!
+                let element2 = document.getElementById(`[${i + 1},${j}]`)!
+                let element2_1 = document.getElementById(`[${i + 1},${j + 1}]`)!
+                let element2_2 = document.getElementById(`[${i + 1},${j - 1}]`)!
+                if (element1 != null) {
+                    if (element1.dataset.occupied == "occupied") return false
+                }
+                if (element1_1 != null) {
+                    if (element1_1.dataset.occupied == "occupied") return false
+                }
+                if (element1_2 != null) {
+                    if (element1_2.dataset.occupied == "occupied") return false
+                }
+                if (element2 != null) {
+                    if (element2.dataset.occupied == "occupied") return false
+                }
+                if (element2_1 != null) {
+                    if (element2_1.dataset.occupied == "occupied") return false
+                }
+                if (element2_2 != null) {
+                    if (element2_2.dataset.occupied == "occupied") return false
+                }
             }
-            if (gameBoard.isInside(i)) {
-                let element = document.getElementById(`[${i - 1},${j}]`)!
-                if (element.dataset.occupied == "occupied") return false
+            if (alignment == 'horizontal') {
+                let element3 = document.getElementById(`[${i},${j - 1}]`)!
+                let element3_1 = document.getElementById(`[${i - 1},${j - 1}]`)!
+                let element3_2 = document.getElementById(`[${i + 1},${j - 1}]`)!
+                let element4 = document.getElementById(`[${i},${j + 1}]`)!
+                let element4_1 = document.getElementById(`[${i - 1},${j + 1}]`)!
+                let element4_2 = document.getElementById(`[${i + 1},${j + 1}]`)!
+                if (element3 != null) {
+                    if (element3.dataset.occupied == "occupied") return false
+                }
+                if (element3_1 != null) {
+                    if (element3_1.dataset.occupied == "occupied") return false
+                }
+                if (element3_2 != null) {
+                    if (element3_2.dataset.occupied == "occupied") return false
+                }
+                if (element4 != null) {
+                    if (element4.dataset.occupied == "occupied") return false
+                }
+                if (element4_1 != null) {
+                    if (element4_1.dataset.occupied == "occupied") return false
+                }
+                if (element4_2 != null) {
+                    if (element4_2.dataset.occupied == "occupied") return false
+                }
+
             }
-            if (gameBoard.isInside(i)) {
-                let element = document.getElementById(`[${i + 1},${j}]`)!
-                if (element.dataset.occupied == "occupied") return false
-            }
-            if (gameBoard.isInside(j)) {
-                let element = document.getElementById(`[${i},${j - 1}]`)!
-                if (element.dataset.occupied == "occupied") return false
-            }
-            if (gameBoard.isInside(j)) {
-                let element = document.getElementById(`[${i},${j + 1}]`)!
-                if (element.dataset.occupied == "occupied") return false
-            }
+
         }
     }
     return true
@@ -119,17 +154,16 @@ function boat() {
     let carrier = createShip(Ships.carrier);
     let destroyer = createShip(Ships.destroyer);
 
-    let shipArray = [submarine, battleship, cruiser, carrier, destroyer]
-    return shipArray
+    return [submarine, battleship, cruiser, carrier, destroyer]
 }
 
 
-const mouseOver = (target: HTMLDivElement, count: number, boat: Ship, alignment: string) => {
+const mouseOver = (target: HTMLDivElement, boat: Ship, alignment: string) => {
     let coordinates: string = target.id
     let coord = startCoordArray(coordinates)
     let startCoord = endCoordStartCoord(coord, boat, alignment).startCoord
     let endCoord = endCoordStartCoord(coord, boat, alignment).endCoord
-    if (isValidSpotDisplay(startCoord, endCoord)) { // todo set alignment
+    if (isValidSpot(startCoord, endCoord, alignment)) { // todo set alignment
         for (let i = startCoord[0]; i <= endCoord[0]; i++) {
             for (let j = startCoord[1]; j <= endCoord[1]; j++) {
                 let shipDiv = document.getElementById(`[${i},${j}]`)!
@@ -139,12 +173,12 @@ const mouseOver = (target: HTMLDivElement, count: number, boat: Ship, alignment:
     } else target.classList.add('error')
 }
 
-const mouseOut = (target: HTMLDivElement, count: number, boat: Ship, alignment: string) => {
+const mouseOut = (target: HTMLDivElement, boat: Ship, alignment: string) => {
     let coordinates: string = target.id
     let coord = startCoordArray(coordinates)
     let startCoord = endCoordStartCoord(coord, boat, alignment).startCoord
     let endCoord = endCoordStartCoord(coord, boat, alignment).endCoord
-    if (isValidSpotDisplay(startCoord, endCoord)) { // todo set alignment
+    if (isValidSpot(startCoord, endCoord, alignment)) { // todo set alignment
         for (let i = startCoord[0]; i <= endCoord[0]; i++) {
             for (let j = startCoord[1]; j <= endCoord[1]; j++) {
                 let shipDiv = document.getElementById(`[${i},${j}]`)!
@@ -178,7 +212,7 @@ function placeShip(array: { occupied: boolean; attacked: boolean; ship: Ship }[]
         div.addEventListener('mouseover', (e) => {
             const target = e.target as HTMLDivElement
             if (count <= 4) {
-                mouseOver(target, count, shipArray[count], alignment)
+                mouseOver(target, shipArray[count], alignment)
             }
         })
     })
@@ -186,7 +220,7 @@ function placeShip(array: { occupied: boolean; attacked: boolean; ship: Ship }[]
         div.addEventListener('mouseout', (e) => {
             const target = e.target as HTMLDivElement
             if (count <= 4) {
-                mouseOut(target, count, shipArray[count], alignment)
+                mouseOut(target, shipArray[count], alignment)
             }
         })
     })
@@ -200,7 +234,7 @@ function placeShip(array: { occupied: boolean; attacked: boolean; ship: Ship }[]
                 let startCoord = startCoordArray(coordinates)
                 let start = endCoordStartCoord(startCoord, shipArray[count], alignment).startCoord
                 let endCoord = endCoordStartCoord(startCoord, shipArray[count], alignment).endCoord
-                if (isValidSpotDisplay(start, endCoord)) {
+                if (isValidSpot(start, endCoord, alignment)) {
                     gameBoard.placeBoat(startCoord, shipArray[count], shipAlignment, array)
                     showBoat(startCoord, shipArray[count], shipAlignment)
                     count += 1
@@ -237,9 +271,10 @@ function startGame() {
     homePage.appendChild(header())
     let board = gameBoard.createBoard()
     homePage.appendChild(createGame())
+    enemyBoard()
     // clickHandler(board)
     placeShip(board)
 }
-export { endCoordStartCoord }
+export { endCoordStartCoord, boat, isValidSpot, showBoat }
 
 startGame()

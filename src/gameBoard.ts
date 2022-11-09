@@ -20,13 +20,6 @@ const gameBoard = (() => {
         return gameBoardArray;
     }
 
-    function isInside(num: number) {
-        if (num - 1 < 0) return false
-        if (num + 1 > 9) return false
-        return true;
-    }
-
-
     const placeBoat = (coord: number[], boat: Ship, alignment: string, array: { occupied: boolean; attacked: boolean; ship: object }[][]) => {
         let startCoord = endCoordStartCoord(coord, boat, alignment).startCoord
         let endCoord = endCoordStartCoord(coord, boat, alignment).endCoord
@@ -51,7 +44,7 @@ const gameBoard = (() => {
     }
 
 
-    return { createBoard,  placeBoat, receiveAttack, isInside }
+    return { createBoard,  placeBoat, receiveAttack}
 })()
 
 
