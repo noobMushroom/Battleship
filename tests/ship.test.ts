@@ -15,8 +15,3 @@ test('it will sink the shipt', ()=>{
     expect(ship.hit(sub)).toBe(sub.hits=1)
 })
 
-test ('ship will sink after 3 hits',()=>{
-    let sub = createShip(3);
-    sub.hits=4
-    expect(ship.hit(sub)).toMatch('you are sunk')
-})

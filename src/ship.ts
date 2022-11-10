@@ -7,15 +7,19 @@ function createShip(length:number){
 }
 
 const ship=(()=>{
-    function hit(value:{hits:number, length:number}){
+    function hit(value:{hits:number, length:number, isSunk:boolean}){
         if (value.hits<=value.length){
             return value.hits+=1
-        }else{
-            return 'you are sunk'
         }
     }
 
-    return {hit}
+    function isSunk (value:{hits:number, length:number, isSunk:boolean}){
+        if (value.hits===value.length){
+            return value.isSunk=true
+        }  
+    } 
+
+    return {hit, isSunk}
 })()
 
 export {createShip, ship}

@@ -1,5 +1,5 @@
 import { ship } from "./ship";
-import { endCoordStartCoord } from "./index"
+import { endCoordStartCoord } from "./homepage"
 
 interface Ship {
     length: number;
@@ -7,9 +7,15 @@ interface Ship {
     isSunk: boolean;
 }
 
+interface BoardArray {
+    occupied: boolean;
+    attacked: boolean;
+    ship: Ship
+}
+
 const gameBoard = (() => {
     const createBoard = () => {
-        let gameBoardArray: { occupied: boolean; attacked: boolean; ship: Ship }[][] = new Array();
+        let gameBoardArray: BoardArray[][] = new Array();
 
         for (let i = 0; i < 10; i++) {
             gameBoardArray[i] = new Array();
@@ -20,7 +26,7 @@ const gameBoard = (() => {
         return gameBoardArray;
     }
 
-    const placeBoat = (coord: number[], boat: Ship, alignment: string, array: { occupied: boolean; attacked: boolean; ship: object }[][]) => {
+    const placeBoat = (coord: number[], boat: Ship, alignment: string, array: BoardArray[][]) => {
         let startCoord = endCoordStartCoord(coord, boat, alignment).startCoord
         let endCoord = endCoordStartCoord(coord, boat, alignment).endCoord
         for (let i = startCoord[0]; i <= endCoord[0]; i++) {
@@ -29,23 +35,18 @@ const gameBoard = (() => {
                 array[i][j].ship = boat
             }
         }
-        console.log(array)
     }
 
-
-
-    const receiveAttack = (value: number[], array: { occupied: boolean; attacked: boolean; ship: { hits: number; length: number } }[][]) => {
+    const receiveAttack = (value: number[], array: BoardArray[][]) => {
         let spot = array[value[0]][value[1]]
         spot.attacked = true;
         if (spot.occupied === true) {
             ship.hit(spot.ship)
+            ship.isSunk(spot.ship)
         }
         console.log(array)
     }
-
-
-    return { createBoard,  placeBoat, receiveAttack}
+    return { createBoard, placeBoat, receiveAttack }
 })()
 
-
-export { gameBoard, Ship }
+export { gameBoard, Ship , BoardArray}

@@ -1,5 +1,5 @@
-import { endCoordStartCoord, boat } from ".";
-import { Ship, gameBoard } from "./gameBoard";
+import { endCoordStartCoord, boat } from "./homepage";
+import { Ship, gameBoard, BoardArray } from "./gameBoard";
 
 const board = () => {
     const enemyBoard = document.createElement('div');
@@ -23,56 +23,56 @@ function isValidEnemySpot(startCoord: number[], endCoord: number[], alignment: s
     if (endCoord[0] > 9) return false
     for (let i = startCoord[0]; i <= endCoord[0]; i++) {
         for (let j = startCoord[1]; j <= endCoord[1]; j++) {
-            if (alignment=='vertical'){
+            if (alignment == 'vertical') {
                 let element1 = document.getElementById(`enemy-[${i - 1},${j}]`)!
-                let element1_1 = document.getElementById(`enemy-[${i - 1},${j+1}]`)!
-                let element1_2 = document.getElementById(`enemy-[${i - 1},${j-1}]`)!
+                let element1_1 = document.getElementById(`enemy-[${i - 1},${j + 1}]`)!
+                let element1_2 = document.getElementById(`enemy-[${i - 1},${j - 1}]`)!
                 let element2 = document.getElementById(`enemy-[${i + 1},${j}]`)!
-                let element2_1 = document.getElementById(`enemy-[${i + 1},${j+1}]`)!
-                let element2_2 = document.getElementById(`enemy-[${i + 1},${j-1}]`)!
-                if (element1!=null) {
-                    if (element1.dataset.occupied == "occupied") return false 
+                let element2_1 = document.getElementById(`enemy-[${i + 1},${j + 1}]`)!
+                let element2_2 = document.getElementById(`enemy-[${i + 1},${j - 1}]`)!
+                if (element1 != null) {
+                    if (element1.dataset.occupied == "occupied") return false
                 }
-                if (element1_1!=null) {
-                    if (element1_1.dataset.occupied == "occupied") return false 
+                if (element1_1 != null) {
+                    if (element1_1.dataset.occupied == "occupied") return false
                 }
-                if (element1_2!=null) {
-                    if (element1_2.dataset.occupied == "occupied") return false 
+                if (element1_2 != null) {
+                    if (element1_2.dataset.occupied == "occupied") return false
                 }
-                if (element2!=null) {
-                    if (element2.dataset.occupied == "occupied") return false 
+                if (element2 != null) {
+                    if (element2.dataset.occupied == "occupied") return false
                 }
-                if (element2_1!=null) {
-                    if (element2_1.dataset.occupied == "occupied") return false 
+                if (element2_1 != null) {
+                    if (element2_1.dataset.occupied == "occupied") return false
                 }
-                if (element2_2!=null) {
-                    if (element2_2.dataset.occupied == "occupied") return false 
+                if (element2_2 != null) {
+                    if (element2_2.dataset.occupied == "occupied") return false
                 }
             }
-            if (alignment=='horizontal'){
+            if (alignment == 'horizontal') {
                 let element3 = document.getElementById(`enemy-[${i},${j - 1}]`)!
-                let element3_1 = document.getElementById(`enemy-[${i-1},${j - 1}]`)!
-                let element3_2 = document.getElementById(`enemy-[${i+1},${j - 1}]`)!
+                let element3_1 = document.getElementById(`enemy-[${i - 1},${j - 1}]`)!
+                let element3_2 = document.getElementById(`enemy-[${i + 1},${j - 1}]`)!
                 let element4 = document.getElementById(`enemy-[${i},${j + 1}]`)!
-                let element4_1 = document.getElementById(`enemy-[${i-1},${j + 1}]`)!
-                let element4_2 = document.getElementById(`enemy-[${i+1},${j + 1}]`)!
-                if (element3!=null) {
-                    if (element3.dataset.occupied == "occupied") return false 
+                let element4_1 = document.getElementById(`enemy-[${i - 1},${j + 1}]`)!
+                let element4_2 = document.getElementById(`enemy-[${i + 1},${j + 1}]`)!
+                if (element3 != null) {
+                    if (element3.dataset.occupied == "occupied") return false
                 }
-                if (element3_1!=null) {
-                    if (element3_1.dataset.occupied == "occupied") return false 
+                if (element3_1 != null) {
+                    if (element3_1.dataset.occupied == "occupied") return false
                 }
-                if (element3_2!=null) {
-                    if (element3_2.dataset.occupied == "occupied") return false 
+                if (element3_2 != null) {
+                    if (element3_2.dataset.occupied == "occupied") return false
                 }
-                if (element4!=null) {
-                    if (element4.dataset.occupied == "occupied") return false 
+                if (element4 != null) {
+                    if (element4.dataset.occupied == "occupied") return false
                 }
-                if (element4_1!=null) {
-                    if (element4_1.dataset.occupied == "occupied") return false 
+                if (element4_1 != null) {
+                    if (element4_1.dataset.occupied == "occupied") return false
                 }
-                if (element4_2!=null) {
-                    if (element4_2.dataset.occupied == "occupied") return false 
+                if (element4_2 != null) {
+                    if (element4_2.dataset.occupied == "occupied") return false
                 }
 
             }
@@ -95,8 +95,8 @@ function randomAlignment() {
 
 
 // generating random spot for ai boats
-const randomSpot = (array: { occupied: boolean; attacked: boolean; ship: object }[][]) => {
-    let ships = boat()
+const randomSpot = (array: BoardArray[][], shipArray: Ship[]) => {
+    let ships = shipArray
     while (ships.length) {
         let alignment = randomAlignment()
         let randArray = randomNum()
@@ -124,11 +124,11 @@ function enemyBoatShow(coord: number[], boat: Ship, alignment: string) {
 }
 
 
-const enemyBoard = () => {
+const enemyBoard = (array: BoardArray[][], boatArray: Ship[]) => {
     let main = document.querySelector('body') as HTMLBodyElement
-    let array = gameBoard.createBoard();
     main?.appendChild(board())
-    randomSpot(array)
+    randomSpot(array, boatArray)
 }
 
-export { enemyBoard }
+
+export { enemyBoard, randomNum }
