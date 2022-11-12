@@ -13,6 +13,7 @@ const createGame = () => {
             cellDiv.setAttribute('id', `[${i},${j}]`)
             cellDiv.innerHTML = `${i},${j}`
             cellDiv.setAttribute('data-occupied', 'false')
+            cellDiv.setAttribute('data-attacked', 'false')
             board.appendChild(cellDiv)
         }
     }

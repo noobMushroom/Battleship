@@ -9,19 +9,19 @@ import { enemyChance } from './player';
 function game(board: HTMLDivElement, boardArray: BoardArray[][], playerShip: Ship[]) {
     let enemyArray = gameBoard.createBoard()
     let enemyShips: Ship[] = boat()
-    let exp: Ship[] = []
+    let enemyShipArray: Ship[] = []
     enemyShips.forEach(ship => {
-        exp.push(ship)
+        enemyShipArray.push(ship)
     })
     let main = document.querySelector('body') as HTMLBodyElement
     main.innerHTML = ''
     main.appendChild(board)
     enemyBoard(enemyArray, enemyShips)
-    playGame(boardArray, playerShip, enemyArray, exp)
+    playGame(boardArray, playerShip, enemyArray, enemyShipArray)
 
 }
 
-function clickHandler(boardArray: BoardArray[][], shipsArray: Ship[]) {
+function clickHandler(boardArray: BoardArray[][], shipsArray: Ship[], humanArray: BoardArray[][], humanShips: Ship[]) {
     let cells = document.querySelectorAll('.enemy-cell');
     console.log(shipsArray)
     cells.forEach(div => {
@@ -29,51 +29,32 @@ function clickHandler(boardArray: BoardArray[][], shipsArray: Ship[]) {
             const target = e.target as HTMLDivElement
             let coordinates: string = target.id
             let coordArray: number[] = startCoordArray(coordinates)
-            if (boardArray[coordArray[0]][coordArray[1]].attacked === false) {
-                target.style.background = 'red'
-                gameBoard.receiveAttack(coordArray, boardArray)
+            if (!humanShips.every(isGameOver) && !shipsArray.every(isGameOver)) {
+                if (boardArray[coordArray[0]][coordArray[1]].attacked === false) {
+                    target.style.background = 'red'
+                    gameBoard.receiveAttack(coordArray, boardArray)
+                    if (boardArray[coordArray[0]][coordArray[1]].occupied) {
+                        playGame(humanArray, humanShips, boardArray, shipsArray)
+                    }
+                    else {
+                        enemyChance(humanArray)
+                    }
+                }
             }
         })
     })
 }
 
-function isGameOver(shipsArray: Ship[], array: BoardArray[][]) {
-    for (let i = 0; i <= shipsArray.length; i++) {
-        if (shipsArray[i].isSunk === true) return true
-        return false
-    }
+function isGameOver(element: Ship, index: number, arr: Ship[]) {
+    return element.isSunk === true
 }
-
 
 function playGame(humanArray: BoardArray[][], humanShips: Ship[], enemyArray: BoardArray[][], enemyShips: Ship[]) {
-    console.log({ humanArray })
-    console.log({ humanShips })
-    console.log({ enemyArray })
-    console.log({ enemyShips })
-    let isGameOn = true
-    let turn = "human"
-    while (isGameOn) {
-        if (turn == 'human') {
-            if (!isGameOver(enemyShips, enemyArray)) {
-                clickHandler(humanArray, humanShips)
-                turn= 'computer'
-            } else {
-                isGameOn = false
-
-            }
-        }
-        if (turn == 'computer') {
-            if (!isGameOver(humanShips, humanArray)) {
-                enemyChance(enemyArray);
-                turn = 'human'
-            } else {
-                isGameOn = false
-            }
-        }
-    }
+    clickHandler(enemyArray, enemyShips, humanArray, humanShips)
 }
+
 
 (function startGame() {
     homePage()
 })()
-export { game, isGameOver } 
+export { game, isGameOver, playGame } 

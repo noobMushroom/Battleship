@@ -1,5 +1,6 @@
 import { ship } from "./ship";
 import { endCoordStartCoord } from "./homepage"
+import { doc } from "prettier";
 
 interface Ship {
     length: number;
@@ -16,7 +17,6 @@ interface BoardArray {
 const gameBoard = (() => {
     const createBoard = () => {
         let gameBoardArray: BoardArray[][] = new Array();
-
         for (let i = 0; i < 10; i++) {
             gameBoardArray[i] = new Array();
             for (let j = 0; j < 10; j++) {
@@ -44,9 +44,8 @@ const gameBoard = (() => {
             ship.hit(spot.ship)
             ship.isSunk(spot.ship)
         }
-        console.log(array)
     }
     return { createBoard, placeBoat, receiveAttack }
 })()
 
-export { gameBoard, Ship , BoardArray}
+export { gameBoard, Ship, BoardArray }

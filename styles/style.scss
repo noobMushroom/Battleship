@@ -1,6 +1,12 @@
-body{
-    background-color: aliceblue;
-}
+@import './config';
+
+
+
+
+
+
+
+
 .hoverClass:hover{
     background-color: pink;
 }
@@ -34,6 +40,7 @@ body{
     display: grid;
     grid-template-columns: repeat(10,1fr);
     border: 1px solid black;
+    height: 30rem;
     .cell{
         border: 1px solid red;
         text-align: center;
