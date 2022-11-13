@@ -2,10 +2,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 
 $Primary-color: #1e3a8a;
+$Boat-color: #1f2937;
 
 
 @mixin shadow {
@@ -78,19 +80,23 @@ $Primary-color: #1e3a8a;
 
 
 
-@mixin show{
-    animation: popup 700ms ease-in-out  forwards;
+@mixin show {
+    animation: popup 700ms ease-in-out forwards;
+
     @keyframes popup {
-       0%{
-        opacity: 0;
-        bottom: 0;
-       } 
-       50%{
-           opacity: 0.5;
-       } 
-       100%{
-        opacity: 1;
-        bottom:2%;
-       } 
+        0% {
+            opacity: 0;
+            bottom: 0;
+        }
+
+        50% {
+            bottom: 1%;
+            opacity: 0.5;
+        }
+
+        100% {
+            opacity: 1;
+            bottom: 2%;
+        }
     }
 }

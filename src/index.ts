@@ -34,7 +34,6 @@ function clickHandler(boardArray: BoardArray[][], shipsArray: Ship[], humanArray
             let coordArray: number[] = startCoordArray(coordinates)
             if (!humanShips.every(isGameOver) && !shipsArray.every(isGameOver)) {
                 if (boardArray[coordArray[0]][coordArray[1]].attacked === false) {
-                    // target.style.background = 'red'
                     target.classList.add("attacked")
                     gameBoard.receiveAttack(coordArray, boardArray)
                     if (boardArray[coordArray[0]][coordArray[1]].occupied) {

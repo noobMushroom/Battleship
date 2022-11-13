@@ -115,7 +115,7 @@ function enemyBoatShow(coord: number[], boat: Ship, alignment: string) {
     for (let i = startCoord[0]; i <= endCoord[0]; i++) {
         for (let j = startCoord[1]; j <= endCoord[1]; j++) {
             let shipDiv = document.getElementById(`enemy-[${i},${j}]`) as HTMLDivElement;
-            shipDiv.style.background='green'
+            // shipDiv.style.background='green'
             shipDiv.setAttribute('data-occupied', 'occupied')
         }
     }

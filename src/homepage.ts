@@ -52,7 +52,6 @@ function showBoat(coord: number[], boat: Ship, alignment: string) {
     for (let i = startCoord[0]; i <= endCoord[0]; i++) {
         for (let j = startCoord[1]; j <= endCoord[1]; j++) {
             let shipDiv = document.getElementById(`[${i},${j}]`) as HTMLDivElement;
-            // shipDiv?.setAttribute('style', 'background:pink')
             shipDiv.classList.remove("hover")
             shipDiv.classList.add('boats')
             shipDiv?.setAttribute('data-occupied', 'occupied')
@@ -197,10 +196,10 @@ function placeShip(array: BoardArray[][], board: HTMLDivElement) {
     btn.addEventListener('click', () => {
         if (count <= 4) {
             if (alignment == 'horizontal') {
-                btn.textContent = 'vertical'
+                btn.textContent = 'VERTICAL'
                 alignment = 'vertical'
             } else {
-                btn.textContent = 'horizontal'
+                btn.textContent = 'HORIZONTAL'
                 alignment = 'horizontal'
             }
 
@@ -260,7 +259,7 @@ function header() {
     const alignmentBtn = document.createElement('button')
     alignmentBtn.setAttribute('id', "alignmentBtn");
     alignmentBtn.classList.add('alignmentBtn')
-    alignmentBtn.textContent = 'horizontal'
+    alignmentBtn.textContent = 'HORIZONTAL'
     alignmentBtnDiv.appendChild(alignmentBtn)
     return head
 

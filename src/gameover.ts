@@ -14,7 +14,7 @@ function gameOver(winner:string){
     const resetGameBtn = document.createElement('button')
     resetGameBtn.classList.add('resetBtn')
     resetGameBtn.setAttribute('id', 'resetGameBtn')
-    resetGameBtn.innerHTML="reset"
+    resetGameBtn.innerHTML="RESET"
     gameOverDiv.appendChild(resetGameBtn)
 
 
