@@ -9,9 +9,7 @@ const board = () => {
             let cellDiv = document.createElement('div');
             cellDiv.classList.add('enemy-cell');
             cellDiv.setAttribute('id', `enemy-[${i},${j}]`)
-            cellDiv.innerHTML = `${i},${j}`
             cellDiv.setAttribute('data-occupied', 'false')
-            cellDiv.setAttribute('value', 'unoccupied')
             enemyBoard.appendChild(cellDiv)
         }
     }
@@ -117,16 +115,16 @@ function enemyBoatShow(coord: number[], boat: Ship, alignment: string) {
     for (let i = startCoord[0]; i <= endCoord[0]; i++) {
         for (let j = startCoord[1]; j <= endCoord[1]; j++) {
             let shipDiv = document.getElementById(`enemy-[${i},${j}]`) as HTMLDivElement;
+            shipDiv.style.background='green'
             shipDiv.setAttribute('data-occupied', 'occupied')
-            shipDiv.setAttribute('style', 'background:#4F899A')
         }
     }
 }
 
 
 const enemyBoard = (array: BoardArray[][], boatArray: Ship[]) => {
-    let main = document.querySelector('body') as HTMLBodyElement
-    main?.appendChild(board())
+    let main = document.getElementById("gameBoardDiv") as HTMLDivElement
+    main.appendChild(board())
     randomSpot(array, boatArray)
 }
 

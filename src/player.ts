@@ -3,10 +3,14 @@ import { BoardArray, gameBoard, Ship } from "./gameBoard";
 const enemyChance = (boardArray: BoardArray[][]) => {
     let randomSpot = filteredArray()
     let spot = document.getElementById(`[${randomSpot[0]},${randomSpot[1]}]`) as HTMLDivElement
-    spot.style.background = 'purple';
+    spot.classList.add("attacked")
     spot.dataset.attacked='true'
     gameBoard.receiveAttack(randomSpot, boardArray)
-    if (boardArray[randomSpot[0]][randomSpot[1]].occupied) enemyChance(boardArray)
+    if (boardArray[randomSpot[0]][randomSpot[1]].occupied) {
+        spot.classList.remove("attacked")
+        spot.classList.add("hit")
+        enemyChance(boardArray)
+    }
 }
 
 function filteredArray(): number[] {

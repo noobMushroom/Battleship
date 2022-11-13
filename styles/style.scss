@@ -2,53 +2,167 @@
 
 
 
-
-
-
-
-
-.hoverClass:hover{
-    background-color: pink;
+.logo {
+    @include animation;
+    background-color: $Primary-color;
+    text-align: center;
+    font-size: 2rem
 }
 
 
-.background{
-    background-color: red;
-}
-
-.error{
-    background-color: green;
-}
-.header{
+footer{
+    background-color: $Primary-color;
+    @include animation;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-}
-
-.boatContainer{
-    display: flex;
-    align-items: center;
-    .boatDisplay{
-        border: 2px solid black;
-        width: 50px;
-        height: 50px;
+    justify-content: center;
+    font-size: 1.5em;
+    padding: 1rem;
+    .image{
+        width: 2.5rem;
+        margin-left: 1rem;
+        border-radius: 50%;
     }
 }
 
+.container {
+    @include animation;
+    background-color: $Primary-color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-.board{
-    display: grid;
-    grid-template-columns: repeat(10,1fr);
-    border: 1px solid black;
-    height: 30rem;
-    .cell{
-        border: 1px solid red;
-        text-align: center;
-        cursor: pointer;
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 14vh;
+        width: 40rem;
+        margin-top: 1.5rem;
+        padding: 1rem;
+
+
+        .boatContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 16rem;
+
+            .boatDisplay {
+                border: 3px groove black;
+                background-color: aqua;
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+
+
+        .alignmentBtn {
+            background-color: grey;
+            border: 3px groove black;
+            width: 7rem;
+            height: 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     }
 
 
-    .enemy-cell{
-        @extend .cell
+
+    .gameBoard {
+        @include animation;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        // height: 86vh;
+
+        .board {
+            @include shadow;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            border: 4px solid black;
+            height: 25rem;
+            width: 28rem;
+            margin-right: 2rem;
+            margin-left: 2rem;
+
+
+            .cell {
+                background-color: #3b82f6;
+                border: 1px solid black;
+                text-align: center;
+                cursor: pointer;
+                margin: 0, 1rem;
+            }
+
+
+            .enemy-cell {
+                @extend .cell
+            }
+
+            .boats {
+                background-color: aqua;
+                border: 3px groove black;
+            }
+
+            .hover {
+                background-color: grey;
+            }
+
+            .error {
+                cursor: not-allowed;
+                background-color: rgba(255, 0, 0, 0.564);
+            }
+
+            .hit {
+                background-color: red;
+                border: 3px groove black;
+
+            }
+
+            .attacked {
+                background-color: deeppink;
+            }
+        }
+    }
+
+
+    .game {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @extend .gameBoard;
+        .gameOverDiv{
+            @include show;
+            background-color: aqua;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            width: 60%;
+            height: 30vh;
+            z-index: 1;
+            bottom: 2%;
+            // left: 21%;
+            border-radius: 30px;
+            @include shadow;
+            .winnerDiv{
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+
+
+            .resetBtn{
+                width: 6rem;
+                height: 2rem;
+                border-radius: 12px;
+                cursor: pointer;
+            }
+        }
     }
 }

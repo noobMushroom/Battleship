@@ -11,7 +11,6 @@ const createGame = () => {
             let cellDiv = document.createElement('div');
             cellDiv.classList.add('cell');
             cellDiv.setAttribute('id', `[${i},${j}]`)
-            cellDiv.innerHTML = `${i},${j}`
             cellDiv.setAttribute('data-occupied', 'false')
             cellDiv.setAttribute('data-attacked', 'false')
             board.appendChild(cellDiv)
@@ -53,7 +52,9 @@ function showBoat(coord: number[], boat: Ship, alignment: string) {
     for (let i = startCoord[0]; i <= endCoord[0]; i++) {
         for (let j = startCoord[1]; j <= endCoord[1]; j++) {
             let shipDiv = document.getElementById(`[${i},${j}]`) as HTMLDivElement;
-            shipDiv?.setAttribute('style', 'background:pink')
+            // shipDiv?.setAttribute('style', 'background:pink')
+            shipDiv.classList.remove("hover")
+            shipDiv.classList.add('boats')
             shipDiv?.setAttribute('data-occupied', 'occupied')
         }
     }
@@ -158,10 +159,12 @@ const mouseOver = (target: HTMLDivElement, boat: Ship, alignment: string) => {
         for (let i = startCoord[0]; i <= endCoord[0]; i++) {
             for (let j = startCoord[1]; j <= endCoord[1]; j++) {
                 let shipDiv = document.getElementById(`[${i},${j}]`)!
-                shipDiv.classList.add('background')
+                shipDiv.classList.add('hover')
             }
         }
-    } else target.classList.add('error')
+    } else {
+        target.classList.add('error')
+    }
 }
 
 const mouseOut = (target: HTMLDivElement, boat: Ship, alignment: string) => {
@@ -173,16 +176,18 @@ const mouseOut = (target: HTMLDivElement, boat: Ship, alignment: string) => {
         for (let i = startCoord[0]; i <= endCoord[0]; i++) {
             for (let j = startCoord[1]; j <= endCoord[1]; j++) {
                 let shipDiv = document.getElementById(`[${i},${j}]`)!
-                shipDiv.classList.remove('background')
+                shipDiv.classList.remove('hover')
             }
         }
-    } else target.classList.remove('error')
+    } else {
+        target.classList.remove('error')
+    }
 }
 
 
 
 //this function places ship on the board and in the board array
-function placeShip(array: BoardArray[][], board:HTMLDivElement) {
+function placeShip(array: BoardArray[][], board: HTMLDivElement) {
     let alignment = 'horizontal'
     let shipArray = boat()
     let cells = document.querySelectorAll('.cell');
@@ -232,7 +237,7 @@ function placeShip(array: BoardArray[][], board:HTMLDivElement) {
                     showBoat(startCoord, shipArray[count], shipAlignment)
                     count += 1
                     if (count <= 4) boatDisplay(shipArray[count].length)
-                    if (count>4) startGameBtn(board, array, shipArray)
+                    if (count > 4) game(board, array, shipArray)
                 }
             }
 
@@ -242,43 +247,37 @@ function placeShip(array: BoardArray[][], board:HTMLDivElement) {
 }
 
 function header() {
-    const head = document.createElement('header');
+    const head = document.createElement('div');
     head.classList.add("header")
-    head.innerHTML = `<h1>cool?</h1>`
     const boatDiv = document.createElement('div');
-    boatDiv.textContent = 'here will have boats'
     boatDiv.classList.add('boatContainer');
     boatDiv.setAttribute('id', 'boatDiv')
     head.appendChild(boatDiv)
+    const alignmentBtnDiv = document.createElement('div')
+    alignmentBtnDiv.setAttribute('id', 'alignmentContainer')
+    alignmentBtnDiv.classList.add('alignmentBtnContainer')
+    head.appendChild(alignmentBtnDiv)
     const alignmentBtn = document.createElement('button')
     alignmentBtn.setAttribute('id', "alignmentBtn");
     alignmentBtn.classList.add('alignmentBtn')
     alignmentBtn.textContent = 'horizontal'
-    head.appendChild(alignmentBtn)
+    alignmentBtnDiv.appendChild(alignmentBtn)
     return head
 
 }
 
-
-const startGameBtn = (board:HTMLDivElement, array: BoardArray[][], ships:Ship[]) => {
-    let main = document.querySelector('body') as HTMLBodyElement
-    let btnDiv= document.createElement('div');
-    let startBtn= document.createElement('button');
-    btnDiv.appendChild(startBtn);
-    main.appendChild(btnDiv) 
-    startBtn.innerHTML='game start'
-    startBtn.addEventListener('click', ()=>{
-        game(board, array, ships)
-    })
-}
-
-
 function homePage() {
-    let main = document.querySelector('body') as HTMLBodyElement
+    let main = document.querySelector('.container') as HTMLBodyElement
+    main.innerHTML = ''
+    let gameBoardDiv = document.createElement('div')
+    gameBoardDiv.classList.add('gameBoard')
+    gameBoardDiv.setAttribute("id", 'gameBoardDiv')
     main.appendChild(header())
+
     let board = gameBoard.createBoard()
-    let playerBoard= createGame()
-    main.appendChild(playerBoard)
+    let playerBoard = createGame()
+    main.appendChild(gameBoardDiv)
+    gameBoardDiv.appendChild(playerBoard)
     placeShip(board, playerBoard)
 
 }
